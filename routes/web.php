@@ -53,6 +53,14 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->put('{id}', 'PostController@update');
         $router->delete('{id}', 'PostController@destroy');
     });
+
+    $router->group(['prefix' => 'comments'], function () use ($router) {
+        $router->get('', 'CommentController@index');
+        $router->post('', 'CommentController@store');
+        $router->get('{id}', 'CommentController@show');
+        $router->put('{id}', 'CommentController@update');
+        $router->delete('{id}', 'CommentController@destroy');
+    });
 });
 
 $router->post('/api/auth', 'AuthController@buildToken');
