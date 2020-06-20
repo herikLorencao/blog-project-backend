@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Admin;
-use App\Exceptions\InvalidJwtException;
+use App\Exceptions\ResourceNotFoundException;
 use App\Reader;
 use App\User;
 use Firebase\JWT\JWT;
@@ -45,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
             try {
                 $userData = JWT::decode($token, env('JWT_KEY'), ['HS256']);
             } catch (\Exception $e) {
-                throw new InvalidJwtException('O token informado apresenta problemas');
+                throw new ResourceNotFoundException('O token informado apresenta problemas');
             }
 
             return $this->findUserByLogin($userData->login);

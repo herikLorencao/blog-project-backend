@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Admin;
 use App\Exceptions\InvalidUserTokenException;
-use App\Http\Requests\TokenValidation;
+use App\Http\Requests\TokenRequestValidator;
 use App\Reader;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
@@ -14,15 +14,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function buildToken(Request $request)
+    public function buildToken(Request $request, TokenRequestValidator $tokenRequestValidator)
     {
-        $this->validate($request, TokenValidation::$rules, TokenValidation::$messages);
+        $this->validate($request, $tokenRequestValidator->rules, $tokenRequestValidator->messages);
         $user = $this->findUser($request->login);
 
-        if ($this->verifyIfUserIsValid($request->password, $user)) {
-            throw new InvalidUserTokenException("Usuário não existente no sistema");
-        }
-
+        $this->verifyIfUserIsValid($request->password, $user);
         $token = $this->generateJwt($user->login);
 
         return response()
@@ -37,7 +34,13 @@ class AuthController extends Controller
 
     private function verifyIfUserIsValid($informatedPassword, $user)
     {
-        return is_null($user) || !Hash::check($informatedPassword, $user->password);
+        if (is_null($user)) {
+            throw new InvalidUserTokenException("Usuário não existente no sistema");
+        }
+
+        if (!Hash::check($informatedPassword, $user->password)) {
+            throw new InvalidUserTokenException("A senha do usuário está incorreta");
+        }
     }
 
     private function findUser(string $login)

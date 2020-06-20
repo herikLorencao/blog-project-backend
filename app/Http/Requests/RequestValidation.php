@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 abstract class RequestValidation
 {
     /** @var array $rules */
-    public static $rules = [];
+    public $rules = [];
 
     /** @var array $messages */
-    public static $messages = [];
+    public $messages = [];
 
     /** @var array $customAttributes */
-    public static $customAttributes = [];
+    public $customAttributes = [];
 }

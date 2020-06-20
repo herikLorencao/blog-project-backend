@@ -14,6 +14,13 @@
 */
 
 $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($router) {
+    $router->group(['prefix' => 'admins'], function () use ($router) {
+        $router->get('', 'AdminController@index');
+        $router->post('', 'AdminController@store');
+        $router->get('{id}', 'AdminController@show');
+        $router->put('{id}', 'AdminController@update');
+        $router->delete('{id}', 'AdminController@destroy');
+    });
 });
 
 $router->post('/api/auth', 'AuthController@buildToken');
