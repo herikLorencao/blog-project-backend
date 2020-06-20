@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Admin;
+use App\Exceptions\InvalidJwtException;
+use App\Reader;
 use App\User;
+use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,9 +35,31 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         $this->app['auth']->viaRequest('api', function ($request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
+            if (!$request->hasHeader('Authorization')) {
+                return null;
             }
+
+            $bearer = $request->header('Authorization');
+            $token = str_replace('Bearer ', '', $bearer);
+
+            try {
+                $userData = JWT::decode($token, env('JWT_KEY'), ['HS256']);
+            } catch (\Exception $e) {
+                throw new InvalidJwtException('O token informado apresenta problemas');
+            }
+
+            return $this->findUserByLogin($userData->login);
         });
+    }
+
+    private function findUserByLogin(string $login)
+    {
+        $admin = Admin::where('login', $login)->get();
+
+        if (is_null($admin)) {
+            return Reader::where('login', $login)->get();
+        }
+
+        return $admin;
     }
 }
