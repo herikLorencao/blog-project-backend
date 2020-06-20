@@ -37,6 +37,14 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->put('{id}', 'ProjectController@update');
         $router->delete('{id}', 'ProjectController@destroy');
     });
+
+    $router->group(['prefix' => 'categories'], function () use ($router) {
+        $router->get('', 'CategoryController@index');
+        $router->post('', 'CategoryController@store');
+        $router->get('{id}', 'CategoryController@show');
+        $router->put('{id}', 'CategoryController@update');
+        $router->delete('{id}', 'CategoryController@destroy');
+    });
 });
 
 $router->post('/api/auth', 'AuthController@buildToken');

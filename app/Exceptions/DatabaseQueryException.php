@@ -24,6 +24,6 @@ class DatabaseQueryException extends Exception
      */
     public function render($request)
     {
-        return response()->json(['Erro ao manipular a informação na base de dados' => $this->message], 401);
+        return response()->json(['Erro ao manipular a informação na base de dados' => $this->message], 422);
     }
 }
