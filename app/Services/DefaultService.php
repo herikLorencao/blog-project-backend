@@ -4,7 +4,9 @@
 namespace App\Services;
 
 
+use App\Exceptions\DatabaseQueryException;
 use App\Exceptions\ResourceNotFoundException;
+use Illuminate\Database\QueryException;
 
 abstract class DefaultService
 {
@@ -29,14 +31,23 @@ abstract class DefaultService
 
     public function save(array $resourceData)
     {
-        return $this->resourceName::create($resourceData);
+        try {
+            return $this->resourceName::create($resourceData);
+        } catch (QueryException $e) {
+            throw new DatabaseQueryException("Verifique se os dados informados e relacionamentos estão corretos");
+        }
     }
 
     public function update(int $id, array $resourceData)
     {
         $resource = $this->findById($id);
-        $resource->fill($resourceData);
-        $resource->save();
+
+        try {
+            $resource->fill($resourceData);
+            $resource->save();
+        } catch (QueryException $e) {
+            throw new DatabaseQueryException("Verifique se os dados informados e relacionamentos estão corretos");
+        }
 
         return $resource;
     }

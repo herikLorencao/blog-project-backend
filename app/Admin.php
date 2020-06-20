@@ -21,4 +21,9 @@ class Admin extends Model implements AuthenticatableContract, AuthorizableContra
     protected $hidden = [
         'password',
     ];
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 }

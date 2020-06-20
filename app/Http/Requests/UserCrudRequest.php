@@ -4,7 +4,7 @@
 namespace App\Http\Requests;
 
 
-class AdminCrudRequest extends RequestValidation
+class UserCrudRequest extends RequestValidation
 {
     public $rules = [
         'email' => 'required|email',

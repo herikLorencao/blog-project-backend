@@ -21,6 +21,22 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->put('{id}', 'AdminController@update');
         $router->delete('{id}', 'AdminController@destroy');
     });
+
+    $router->group(['prefix' => 'readers'], function () use ($router) {
+        $router->get('', 'ReaderController@index');
+        $router->post('', 'ReaderController@store');
+        $router->get('{id}', 'ReaderController@show');
+        $router->put('{id}', 'ReaderController@update');
+        $router->delete('{id}', 'ReaderController@destroy');
+    });
+
+    $router->group(['prefix' => 'projects'], function () use ($router) {
+        $router->get('', 'ProjectController@index');
+        $router->post('', 'ProjectController@store');
+        $router->get('{id}', 'ProjectController@show');
+        $router->put('{id}', 'ProjectController@update');
+        $router->delete('{id}', 'ProjectController@destroy');
+    });
 });
 
 $router->post('/api/auth', 'AuthController@buildToken');

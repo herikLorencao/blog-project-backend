@@ -54,10 +54,10 @@ class AuthServiceProvider extends ServiceProvider
 
     private function findUserByLogin(string $login)
     {
-        $admin = Admin::where('login', $login)->get();
+        $admin = Admin::where('login', $login)->first();
 
         if (is_null($admin)) {
-            return Reader::where('login', $login)->get();
+            return Reader::where('login', $login)->first();
         }
 
         return $admin;
