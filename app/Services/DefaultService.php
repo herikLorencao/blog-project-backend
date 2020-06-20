@@ -31,8 +31,8 @@ abstract class DefaultService
 
     public function save(array $resourceData)
     {
-            return $this->resourceName::create($resourceData);
         try {
+            return $this->resourceName::create($resourceData);
         } catch (QueryException $e) {
             throw new DatabaseQueryException("Verifique se os dados informados e relacionamentos estão corretos");
         }
