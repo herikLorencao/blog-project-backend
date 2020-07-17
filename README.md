@@ -17,3 +17,9 @@ Inicialmente o site conterá as seguintes páginas:
 - Um usuário com privilégio **normal** poderá apenas visualizar a página e comentar as postagens.
 
 - Um usuário com privilégio de **administrador** poderá cadastrar novos **posts**, **projetos** e **categorias** para os posts.
+
+## Documentação
+
+A documentação das requisições permitidas na API está disponível no seguinte link:
+
+[Documentação API](https://documenter.getpostman.com/view/6420672/T1DjieRC?version=latest)

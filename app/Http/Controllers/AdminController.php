@@ -4,15 +4,15 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\ProjecCrudRequest;
-use App\Services\ProjectService;
+use App\Http\Requests\UserCrudRequest;
+use App\Services\AdminService;
 
 class AdminController extends CrudController
 {
     public function __construct()
     {
-        $this->serviceClassName = ProjectService::class;
-        $this->requestFormClassName = ProjecCrudRequest::class;
+        $this->serviceClassName = AdminService::class;
+        $this->requestFormClassName = UserCrudRequest::class;
         parent::__construct();
     }
 }

@@ -20,5 +20,6 @@ $factory->define(Admin::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+        'login' => $faker->userName
     ];
 });
