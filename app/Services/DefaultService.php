@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Exceptions\DatabaseQueryException;
 use App\Exceptions\ResourceNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Cache;
 
 abstract class DefaultService
 {
@@ -15,7 +16,14 @@ abstract class DefaultService
 
     public function findAll($resourcesPerPage)
     {
-        return $this->resourceName::paginate($resourcesPerPage);
+        if (Cache::has($this->resourceName)) {
+            return Cache::get($this->resourceName);
+        }
+
+        $results = $this->resourceName::paginate($resourcesPerPage);
+        Cache::put($this->resourceName, $results, 600);
+
+        return $results;
     }
 
     public function findById(int $id)
