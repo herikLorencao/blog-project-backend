@@ -40,7 +40,9 @@ abstract class DefaultService
     public function save(array $resourceData)
     {
         try {
-            return $this->resourceName::create($resourceData);
+            $result = $this->resourceName::create($resourceData);
+            Cache::pull($this->resourceName);
+            return $result;
         } catch (QueryException $e) {
             throw new DatabaseQueryException("Verifique se os dados informados e relacionamentos estão corretos");
         }
@@ -52,6 +54,7 @@ abstract class DefaultService
 
         try {
             $resource->fill($resourceData);
+            Cache::pull($this->resourceName);
             $resource->save();
         } catch (QueryException $e) {
             throw new DatabaseQueryException("Verifique se os dados informados e relacionamentos estão corretos");
@@ -67,5 +70,7 @@ abstract class DefaultService
         if ($qtdResourcesRemoved === 0) {
             throw new ResourceNotFoundException('O recurso buscado não existe');
         }
+
+        Cache::pull($this->resourceName);
     }
 }
