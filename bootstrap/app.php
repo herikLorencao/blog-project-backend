@@ -113,7 +113,7 @@ $app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
-], function () {
+], function ($router) {
     require __DIR__ . '/../routes/web.php';
 });
 
