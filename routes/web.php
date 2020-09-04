@@ -61,6 +61,9 @@ $router->group(['prefix' => 'api', 'middleware' => 'auth'], function () use ($ro
         $router->put('{id}', 'CommentController@update');
         $router->delete('{id}', 'CommentController@destroy');
     });
+
+    $router->post('admin/login', 'LoginController@verifyAdminCredentials');
+    $router->post('/login', 'LoginController@verifyReaderCredentials');
 });
 
 $router->post('/api/auth', 'AuthController@buildToken');
