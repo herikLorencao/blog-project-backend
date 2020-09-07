@@ -22,6 +22,11 @@ class CreateTablePosts extends Migration
             $table->foreignId('admin_id')
                 ->references('id')
                 ->on('admins');
+
+            $table->foreignId('category_id')
+                ->nullable()
+                ->references('id')
+                ->on('categories');
         });
     }
 

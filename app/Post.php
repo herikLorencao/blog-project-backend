@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['title', 'content', 'admin_id'];
+    protected $fillable = ['title', 'content', 'admin_id', 'category_id'];
 
     public function admin()
     {
